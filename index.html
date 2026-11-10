@@ -1,0 +1,327 @@
+<title>Calendario Perpetuo de Zeller</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="icon" href="img/logo.png">
+
+<!--
+  ===================================================================
+  PROYECTO NUM-05 · ALGORITMO DE ZELLER PARA CALENDARIOS PERPETUOS
+  Pensamiento Matemático · Universidad Icesi
+  Medicina Veterinaria y Zootecnia
+
+  Integrantes:
+    María Camila Arteaga ... A00433501
+    Noelia Castro .......... A00434580
+    John Steven Bolaños .... A00434013
+    Danna Gabriela Bermeo .. A00433918
+
+  ¿DÓNDE ESTÁ CADA COSA?
+
+    index.html ........................ (este archivo) los textos y casillas que se ven
+    css/estilos.css ................... colores, letras y apariencia
+    img/ .............................. el logo y las ilustraciones de cada sección
+    js/datos.js ....................... nombres de días y meses, especies, fechas históricas
+    js/utilidades.js .................. pequeñas ayudas para escribir en la página
+    js/matematica.js .................. ★ LA FÓRMULA DE ZELLER y toda la matemática
+    js/herramienta1-calculadora.js .... la calculadora paso a paso
+    js/herramienta2-calendario.js ..... el calendario del mes
+    js/herramienta3-parto.js .......... la fecha de parto de los animales
+    js/herramienta4-historia.js ....... las fechas históricas de Colombia
+    js/inicio.js ...................... arranca todo cuando se abre la página
+
+  PREGUNTAS FRECUENTES DEL PROFESOR → ARCHIVO
+    "¿Dónde está la fórmula?" ............... js/matematica.js → función zeller()
+    "¿Cómo saben si un año es bisiesto?" .... js/matematica.js → función esBisiesto()
+    "¿Cómo suman los días de gestación?" .... js/matematica.js → función sumarDias()
+    "¿De dónde sacaron los días de gestación?" js/datos.js → lista ESPECIES
+    "¿Cómo dibujan el calendario?" .......... js/herramienta2-calendario.js
+
+  CÓMO ABRIRLA: doble clic en index.html (los archivos deben quedar en
+  sus carpetas css/ y js/ junto a este archivo).
+  ===================================================================
+-->
+
+<main class="wrap">
+
+  <!-- ===================== ENCABEZADO ===================== -->
+  <header class="top">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="eyebrow">Proyecto NUM-05 · Pensamiento Matemático · Universidad Icesi</span>
+        <h1>¿Qué día de la semana fue?<br>El algoritmo de Zeller</h1>
+        <p class="lead">
+          Con una sola fórmula de aritmética modular se puede saber el día de la semana de
+          cualquier fecha, del año 1 al 9999, sin mirar un calendario. Aquí la usamos para
+          fechas históricas de Colombia y para calcular en qué día caerá el parto de un animal.
+        </p>
+      </div>
+      <!-- Logo del grupo (archivo img/logo.png) -->
+      <img class="logo" src="img/logo.png" width="180" height="180"
+           alt="Logo del grupo: un perro veterinario con lupa revisando un libro de animales junto a un calendario">
+    </div>
+    <div class="group" aria-label="Integrantes del grupo">
+      <span><b>María Camila Arteaga</b> <span class="mono">A00433501</span></span>
+      <span><b>Noelia Castro</b> <span class="mono">A00434580</span></span>
+      <span><b>John Steven Bolaños</b> <span class="mono">A00434013</span></span>
+      <span><b>Danna Gabriela Bermeo</b> <span class="mono">A00433918</span></span>
+      <span>Medicina Veterinaria y Zootecnia</span>
+    </div>
+    <nav class="jump" aria-label="Secciones">
+      <a href="#calculadora">Calculadora</a>
+      <a href="#calendario">Calendario del mes</a>
+      <a href="#parto">Fecha de parto</a>
+      <a href="#historia">Fechas históricas</a>
+      <a href="#formula">¿Cómo funciona?</a>
+    </nav>
+    <div class="status" aria-label="Estado del proyecto">
+      <span class="status-title">Entrega final · proyecto completo</span>
+      <ul>
+        <li class="done">Fórmula de Zeller programada y comprobada (calendarios gregoriano y juliano)</li>
+        <li class="done">Calculadora paso a paso</li>
+        <li class="done">Explicación matemática de la fórmula</li>
+        <li class="done">Calendario perpetuo</li>
+        <li class="done">Fecha probable de parto por especie</li>
+        <li class="done">Fechas históricas de Colombia</li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===================== 1. CALCULADORA ===================== -->
+  <section id="calculadora">
+    <div class="section-head with-art">
+      <img class="art" src="img/calculadora.png" width="104" height="104" alt="El perrito veterinario haciendo cuentas en una pizarra">
+      <div class="section-text">
+        <span class="eyebrow">Herramienta 1</span>
+        <h2>Calculadora paso a paso</h2>
+        <p class="lead">Escriban una fecha y la página muestra cada operación de la fórmula, igual que si la hicieran a mano.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <form id="form-fecha" class="fields" autocomplete="off">
+          <div class="field">
+            <label for="dia">Día</label>
+            <input id="dia" type="number" min="1" max="31" value="20" required>
+          </div>
+          <div class="field">
+            <label for="mes">Mes</label>
+            <select id="mes"></select>
+          </div>
+          <div class="field">
+            <label for="anio">Año</label>
+            <input id="anio" type="number" min="1" max="9999" value="1810" required>
+          </div>
+          <div class="row-buttons">
+            <button type="submit">Calcular</button>
+            <button type="button" class="ghost" id="btn-hoy">Hoy</button>
+          </div>
+        </form>
+
+        <div class="result" aria-live="polite">
+          <span class="date" id="res-fecha"></span>
+          <span class="weekday" id="res-dia"></span>
+          <span class="badge" id="res-calendario"></span>
+          <span class="small" id="res-verificacion"></span>
+          <span class="error" id="res-error" hidden></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <ol class="steps" id="pasos"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. CALENDARIO DEL MES ===================== -->
+  <section id="calendario">
+    <div class="section-head with-art">
+      <img class="art" src="img/calendario.png" width="104" height="104" alt="El perrito señalando un día marcado en un calendario">
+      <div class="section-text">
+        <span class="eyebrow">Herramienta 2</span>
+        <h2>Calendario perpetuo</h2>
+        <p class="lead">
+          Para dibujar un mes completo basta con un solo cálculo de Zeller: el día de la semana del día 1.
+          Los demás días se acomodan uno tras otro. Toquen un día para ver su cálculo arriba.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cal-head">
+        <span class="cal-title" id="cal-titulo"></span>
+        <div class="row-buttons">
+          <button type="button" class="ghost" id="cal-ant" aria-label="Mes anterior">← Anterior</button>
+          <button type="button" class="ghost" id="cal-sig" aria-label="Mes siguiente">Siguiente →</button>
+        </div>
+      </div>
+      <div class="cal" id="cal-grilla" role="grid"></div>
+      <p class="cal-note" id="cal-nota"></p>
+      <p class="cal-note" id="cal-repite"></p>
+    </div>
+  </section>
+
+  <!-- ===================== 3. VETERINARIA ===================== -->
+  <section id="parto">
+    <div class="section-head with-art">
+      <img class="art" src="img/parto.png" width="104" height="104" alt="El perrito veterinario escuchando con el estetoscopio a una vaca embarazada">
+      <div class="section-text">
+        <span class="eyebrow">Herramienta 3 · Aplicación a la veterinaria</span>
+        <h2>¿Qué día nacerá la cría?</h2>
+        <p class="lead">
+          Escojan la especie y la fecha de la monta o inseminación. Sumamos los días de gestación
+          recorriendo el calendario mes por mes y luego usamos Zeller para saber en qué día de la semana caerá el parto.
+        </p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-stack">
+        <div class="species" id="especies" role="group" aria-label="Especie"></div>
+        <form id="form-parto" class="fields" autocomplete="off">
+          <div class="field">
+            <label for="parto-dia">Día de la monta</label>
+            <input id="parto-dia" type="number" min="1" max="31" required>
+          </div>
+          <div class="field">
+            <label for="parto-mes">Mes</label>
+            <select id="parto-mes"></select>
+          </div>
+          <div class="field">
+            <label for="parto-anio">Año</label>
+            <input id="parto-anio" type="number" min="1600" max="9998" required>
+          </div>
+          <button type="submit">Calcular parto</button>
+        </form>
+        <div class="result" aria-live="polite">
+          <span class="date" id="parto-texto"></span>
+          <span class="weekday" id="parto-dia-semana"></span>
+          <span class="small" id="parto-nota"></span>
+          <span class="error" id="parto-error" hidden></span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Recorrido por el calendario</h3>
+        <p class="small hint">Cada línea es un mes. Se resta lo que falta para terminarlo, hasta que se acaban los días.</p>
+        <div class="table-scroll">
+          <table class="terms" id="parto-pasos"></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 4. FECHAS HISTÓRICAS ===================== -->
+  <section id="historia">
+    <div class="section-head with-art">
+      <img class="art" src="img/historia.png" width="104" height="104" alt="El perrito con sombrero de explorador leyendo un pergamino antiguo">
+      <div class="section-text">
+        <span class="eyebrow">Herramienta 4 · Ciclos históricos</span>
+        <h2>Fechas de la historia de Colombia</h2>
+        <p class="lead">
+          Toquen una fecha para ver el cálculo completo. Las fechas anteriores al 15 de octubre de 1582
+          usan el calendario juliano, que era el oficial en ese momento.
+        </p>
+      </div>
+    </div>
+    <div class="events" id="eventos"></div>
+  </section>
+
+  <!-- ===================== 5. EXPLICACIÓN ===================== -->
+  <section id="formula">
+    <div class="section-head with-art">
+      <img class="art" src="img/formula.png" width="104" height="104" alt="El perrito pensando frente a una rueda de colores que gira">
+      <div class="section-text">
+        <span class="eyebrow">La matemática</span>
+        <h2>¿Cómo funciona la fórmula?</h2>
+      </div>
+    </div>
+    <div class="explain">
+      <p>Christian Zeller publicó esta fórmula en 1882. Para el calendario gregoriano (el que usamos hoy) es:</p>
+      <div class="big-formula">h = ( q + ⌊13(m+1)/5⌋ + K + ⌊K/4⌋ + ⌊J/4⌋ + 5J ) mod 7</div>
+      <dl class="vars">
+        <dt>h</dt><dd>el día de la semana: 0 = sábado, 1 = domingo, 2 = lunes … 6 = viernes.</dd>
+        <dt>q</dt><dd>el día del mes (1 a 31).</dd>
+        <dt>m</dt><dd>el mes, contando marzo = 3 hasta diciembre = 12, y <b>enero = 13 y febrero = 14 del año anterior</b>.</dd>
+        <dt>K</dt><dd>el año dentro del siglo: año mod 100 (para 1810, K = 10).</dd>
+        <dt>J</dt><dd>el siglo: ⌊año / 100⌋ (para 1810, J = 18).</dd>
+        <dt>⌊x⌋</dt><dd>“piso”: quitar los decimales. ⌊4,7⌋ = 4.</dd>
+        <dt>mod 7</dt><dd>el residuo de dividir entre 7. 146 mod 7 = 6, porque 146 = 7 × 20 + 6.</dd>
+      </dl>
+
+      <h3>¿Por qué módulo 7?</h3>
+      <p>
+        La semana tiene 7 días y se repite sin parar. Si hoy es lunes, en 7 días es lunes otra vez, en 14 también.
+        Por eso solo importa el <b>residuo</b> al dividir entre 7: avanzar 30 días es lo mismo que avanzar 2 (30 = 7 × 4 + 2).
+        Cada término de la fórmula cuenta cuántos días “sobran” por el día, el mes, el año y el siglo.
+      </p>
+
+      <h3>¿Por qué enero y febrero son los meses 13 y 14?</h3>
+      <p>
+        El único mes que cambia de tamaño es febrero (28 o 29 días). Si lo ponemos al <b>final</b> del año,
+        el día extra de los años bisiestos queda después de todos los demás meses y no desordena la cuenta.
+        Por eso el “año de Zeller” empieza en marzo, como el antiguo calendario romano.
+      </p>
+
+      <h3>¿De dónde sale ⌊13(m+1)/5⌋?</h3>
+      <p>
+        Los meses de marzo a enero tienen 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31 días.
+        Este término es un truco para sumar cuántos días “sobran” de cada mes sobre 28 (las 4 semanas exactas):
+        crece de a 2 o de a 3, igual que los meses de 30 y 31 días. Es una forma corta de no tener que guardar una tabla.
+      </p>
+
+      <h3>Los años bisiestos</h3>
+      <p>
+        En el calendario gregoriano un año es bisiesto si es divisible entre 4, <b>excepto</b> los que terminan en 00,
+        que solo lo son si son divisibles entre 400. Así, 2000 fue bisiesto pero 1900 no. Los términos ⌊K/4⌋ y ⌊J/4⌋
+        de la fórmula cuentan justamente esos días extra.
+      </p>
+
+      <h3>El salto de 1582</h3>
+      <p>
+        El calendario juliano (de Julio César) ponía un bisiesto cada 4 años sin excepción, y con los siglos se adelantó 10 días
+        respecto al Sol. El papa Gregorio XIII lo corrigió: al jueves 4 de octubre de 1582 le siguió el
+        viernes 15 de octubre. España y sus territorios, incluida la actual Colombia, hicieron el cambio ese mismo año.
+        Para fechas julianas la fórmula cambia un poco:
+      </p>
+      <div class="big-formula">h = ( q + ⌊13(m+1)/5⌋ + K + ⌊K/4⌋ + 5 + 6J ) mod 7</div>
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="num">400 años</span>
+        <span>tienen 146.097 días, que son exactamente 20.871 semanas. Por eso el calendario gregoriano se repite idéntico cada 400 años: es un calendario <b>perpetuo</b>.</span>
+      </div>
+      <div class="fact">
+        <span class="num">14 calendarios</span>
+        <span>son todos los que existen: el 1 de enero puede caer en 7 días distintos, y el año puede ser bisiesto o no (7 × 2 = 14).</span>
+      </div>
+      <div class="fact">
+        <span class="num">1 cálculo</span>
+        <span>basta para dibujar un mes completo: el día de la semana del día 1. El resto se cuenta de 7 en 7.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <img class="art-small" src="img/despedida.png" width="96" height="96" alt="El perrito despidiéndose con la pata">
+    <div class="footer-text">
+      <span>Proyecto NUM-05 · Pensamiento Matemático · Universidad Icesi · 2026.</span>
+      <span>Periodos de gestación aproximados según la tabla
+        <a href="https://www.msdvetmanual.com/multimedia/table/approximate-gestation-periods" target="_blank" rel="noopener">Approximate Gestation Periods del MSD Veterinary Manual</a>
+        (razas bovinas: tabla “Approximate Gestation Periods” del mismo manual). La fecha real de parto puede variar algunos días.</span>
+      <span>Fórmula: Zeller, C. (1882). <i>Die Grundaufgaben der Kalenderrechnung auf neue und vereinfachte Weise gelöst</i>.</span>
+    </div>
+  </footer>
+</main>
+
+<!-- Los scripts se cargan en este orden: primero los datos y la matemática,
+     después cada herramienta y por último inicio.js, que arranca todo. -->
+<script src="js/datos.js"></script>
+<script src="js/utilidades.js"></script>
+<script src="js/matematica.js"></script>
+<script src="js/herramienta1-calculadora.js"></script>
+<script src="js/herramienta2-calendario.js"></script>
+<script src="js/herramienta3-parto.js"></script>
+<script src="js/herramienta4-historia.js"></script>
+<script src="js/inicio.js"></script>
