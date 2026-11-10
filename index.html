@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calendario Perpetuo de Zeller</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -123,6 +125,13 @@
         <ol class="steps" id="pasos"></ol>
       </div>
     </div>
+
+    <div class="card" id="graf-fecha-card" hidden>
+      <h3 id="graf-fecha-titulo"></h3>
+      <p class="small hint">¿Cuántas veces cayó esta fecha en cada día de la semana? Cada año se calcula con Zeller.</p>
+      <div class="bars" id="graf-fecha"></div>
+      <p class="small" id="graf-fecha-nota"></p>
+    </div>
   </section>
 
   <!-- ===================== 2. CALENDARIO DEL MES ===================== -->
@@ -197,6 +206,11 @@
           <table class="terms" id="parto-pasos"></table>
         </div>
       </div>
+    </div>
+    <div class="card">
+      <h3>Días de gestación por especie</h3>
+      <p class="small hint">La especie que escogieron aparece resaltada.</p>
+      <div class="bars" id="graf-especies"></div>
     </div>
   </section>
 
@@ -313,4 +327,5 @@
 <script src="js/herramienta2-calendario.js"></script>
 <script src="js/herramienta3-parto.js"></script>
 <script src="js/herramienta4-historia.js"></script>
+<script src="js/graficas.js"></script>
 <script src="js/inicio.js"></script>

@@ -21,6 +21,7 @@ function dibujarEspecies() {
     b.addEventListener("click", () => { especieActual = e; dibujarEspecies(); calcularParto(); });
     cont.appendChild(b);
   });
+  dibujarGraficaEspecies();   // resalta la especie elegida en la gráfica
 }
 
 function calcularParto() {

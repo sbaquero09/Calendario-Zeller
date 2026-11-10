@@ -259,6 +259,19 @@ footer a { color: var(--accent); }
 .mark { color: var(--accent); }
 table.terms td.check { text-align: left; font-family: var(--font-body); font-weight: 400; color: var(--muted); padding-top: 12px; }
 
+/* ---------- Gráficas de barras ---------- */
+.bars { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.bar-row { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 4.5em; align-items: center; gap: 10px; font-size: .9rem; }
+.bar-label { color: var(--fg); }
+.bar-track { height: 14px; background: var(--tint); border-radius: 7px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; background: var(--mark-soft); border-radius: 7px; }
+.bar-row.on .bar-fill { background: var(--deco); }
+.bar-row.on .bar-label { font-weight: 700; }
+.bar-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; color: var(--muted); font-size: .82rem; }
+.bar-row.on .bar-val { color: var(--fg); font-weight: 600; }
+@media (max-width: 520px) { .bar-row { grid-template-columns: 7.5em minmax(0, 1fr) 4em; gap: 6px; } }
+@media (prefers-reduced-motion: no-preference) { .bar-fill { transition: width .3s; } }
+
 /* ---------- Estado del proyecto ---------- */
 .status {
   border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px;

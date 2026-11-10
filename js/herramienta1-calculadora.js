@@ -9,6 +9,7 @@
 function mostrarCalculo(dia, mes, anio) {
   const error = validarFecha(dia, mes, anio);
   $("res-error").hidden = !error;
+  dibujarGraficaFecha(dia, mes, anio, error);
   if (error) {
     $("res-error").textContent = error;
     $("res-fecha").textContent = "";
